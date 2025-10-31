@@ -12,34 +12,53 @@ import html2canvas from 'html2canvas';
   styleUrls: ['./reports.component.css']
 })
 export class ReportsComponent implements OnInit {
-  allProducts: Product[] = [];
   lowQuantityProducts: Product[] = [];
   expiringSoonProducts: Product[] = [];
+  expiringIn14DaysProducts: Product[] = [];
+  expiredProducts: Product[] = [];
   loading = true;
 
   constructor(private reportsService: ReportsService) {}
 
   ngOnInit(): void {
-    this.reportsService.getAllProducts().subscribe(products => {
-      this.allProducts = products;
-      this.loading = false;
-      this.generateReports();
-    });
+    this.loadReports();
   }
 
-  generateReports(): void {
+  private isExpired(date: string): boolean {
     const today = new Date();
-    const nextWeek = new Date();
-    nextWeek.setDate(today.getDate() + 7);
+    today.setHours(0,0,0,0);
+    const expiration = new Date(date);
+    expiration.setHours(0,0,0,0);
+    return expiration < today;
+  }
 
-    this.expiringSoonProducts = this.allProducts.filter(p => {
-      const expDate = new Date(p.expirationDate);
-      return expDate >= today && expDate <= nextWeek;
+  private isNearExpiration(date: string, days: number = 7): boolean {
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    const expiration = new Date(date);
+    expiration.setHours(0,0,0,0);
+    const diffDays = (expiration.getTime() - today.getTime()) / (1000 * 3600 * 24);
+    return diffDays > 0 && diffDays <= days;
+  }
+
+  loadReports(): void {
+    this.loading = true;
+
+    this.reportsService.getLowStockProducts().subscribe(data => {
+      this.lowQuantityProducts = data.filter(p => !this.isExpired(p.expirationDate));
     });
 
-    this.lowQuantityProducts = this.allProducts.filter(p => {
-      const expDate = new Date(p.expirationDate);
-      return p.quantity < 10 && expDate >= today;
+    this.reportsService.getExpiringProducts().subscribe(data => {
+      this.expiringSoonProducts = data.filter(p => !this.isExpired(p.expirationDate));
+    });
+
+    this.reportsService.getExpiringIn14Days().subscribe(data => {
+      this.expiringIn14DaysProducts = data.filter(p => !this.isExpired(p.expirationDate));
+    });
+
+    this.reportsService.getExpiredProducts().subscribe(data => {
+      this.expiredProducts = data.filter(p => this.isExpired(p.expirationDate));
+      this.loading = false;
     });
   }
 
