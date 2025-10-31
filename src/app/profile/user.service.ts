@@ -6,7 +6,7 @@ import { map, catchError } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  private apiUrl = 'https://fake-inventory-api-pb0q.onrender.com/users';
+  private apiUrl = 'https://inventatrack-azekbja3h9eyb0fy.canadacentral-01.azurewebsites.net/api/v1/auth/login';
 
   constructor(private http: HttpClient) {}
 
