@@ -1,36 +1,37 @@
 <div class="about-container">
-  <h2>Registrar Nuevo Producto</h2>
+  <h2>Registrar Nuevo Inventario</h2>
+
+  <div class="form-group">
+    <label for="month">Mes (yyyy-MM)</label>
+    <input id="month" type="month" [(ngModel)]="inventory.month" />
+  </div>
+
+  <div class="form-group">
+    <label for="id">ID del producto</label>
+    <input id="id" type="number" [(ngModel)]="inventory.products[0].id" />
+  </div>
+
+  <div class="form-group">
+    <label for="categoryId">ID de categoría</label>
+    <input id="categoryId" type="number" [(ngModel)]="inventory.products[0].categoryId" />
+  </div>
 
   <div class="form-group">
     <label for="name">Nombre del producto</label>
-    <input
-      id="name"
-      type="text"
-      [(ngModel)]="newProduct.name"
-      placeholder="Ej. Leche, Queso, Pollo..."
-    />
+    <input id="name" type="text" [(ngModel)]="inventory.products[0].name" />
   </div>
 
   <div class="form-group">
     <label for="quantity">Cantidad</label>
-    <input
-      id="quantity"
-      type="number"
-      [(ngModel)]="newProduct.quantity"
-      placeholder="Ej. 20"
-    />
+    <input id="quantity" type="number" [(ngModel)]="inventory.products[0].quantity" />
   </div>
 
   <div class="form-group">
     <label for="expirationDate">Fecha de vencimiento</label>
-    <input
-      id="expirationDate"
-      type="date"
-      [(ngModel)]="newProduct.expirationDate"
-    />
+    <input id="expirationDate" type="date" [(ngModel)]="inventory.products[0].expirationDate" />
   </div>
 
-  <button (click)="addProduct()">Agregar producto</button>
+  <button (click)="addProduct()">Registrar Inventario</button>
 
   <p
     *ngIf="message"
@@ -40,18 +41,4 @@
   >
     {{ message }}
   </p>
-
-  <h3>📦 Productos añadidos hoy</h3>
-
-  <ul class="product-list" *ngIf="products.length > 0; else empty">
-    <li *ngFor="let product of products">
-      <strong>{{ product.name }}</strong> — Cantidad:
-      {{ product.quantity }} — Vence:
-      {{ product.expirationDate | date: 'dd/MM/yyyy' }}
-    </li>
-  </ul>
-
-  <ng-template #empty>
-    <p class="no-products">Aún no has registrado productos hoy.</p>
-  </ng-template>
 </div>
