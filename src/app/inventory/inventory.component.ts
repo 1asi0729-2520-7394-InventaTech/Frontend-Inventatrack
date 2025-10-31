@@ -1,8 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule, DatePipe } from '@angular/common';
-import { Product, InventoryMonth } from './product.model';
 import { FormsModule } from '@angular/forms';
+
+export interface Product {
+  id: number;
+  categoryId: number;
+  name: string;
+  quantity: number;
+  expirationDate: string;
+}
+
+export interface InventoryMonth {
+  id: number;
+  month: string;
+  products: Product[];
+}
 
 @Component({
   selector: 'app-inventory',
@@ -20,9 +33,9 @@ export class InventoryComponent implements OnInit {
   selectedMonth: string = '';
   searchTerm: string = '';
   errorMessage: string = '';
-  isLoading: boolean = true;
+  isLoading: boolean = false;
 
-  private apiUrl = 'https://fake-inventory-api-pb0q.onrender.com/inventory';
+  private apiUrl = 'https://inventatrack-azekbja3h9eyb0fy.canadacentral-01.azurewebsites.net/api/inventories';
 
   constructor(private http: HttpClient) {}
 
@@ -32,28 +45,23 @@ export class InventoryComponent implements OnInit {
 
   fetchInventory(): void {
     this.isLoading = true;
-    this.http.get<InventoryMonth[]>(this.apiUrl)
-      .subscribe({
-        next: (data) => {
-          this.allData = data;
-          this.months = data.map(entry => entry.month);
+    this.http.get<InventoryMonth[]>(this.apiUrl).subscribe({
+      next: (data) => {
+        this.allData = data;
+        this.months = data.map(entry => entry.month);
 
-          if (this.months.length > 0) {
-            this.selectedMonth = this.months[this.months.length - 1];
-            this.updateFilteredProducts();
-          } else {
-            this.products = [];
-            this.filteredProducts = [];
-          }
-
-          this.isLoading = false;
-        },
-        error: (err) => {
-          console.error('Error al obtener inventario:', err);
-          this.errorMessage = 'Error al cargar el inventario. Intenta más tarde.';
-          this.isLoading = false;
+        if (this.months.length > 0) {
+          this.selectedMonth = this.months[0];
+          this.updateFilteredProducts();
         }
-      });
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Error al obtener inventario:', err);
+        this.errorMessage = 'Error al cargar el inventario. Intenta más tarde.';
+        this.isLoading = false;
+      }
+    });
   }
 
   updateFilteredProducts(): void {
