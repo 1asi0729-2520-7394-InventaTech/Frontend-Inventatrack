@@ -1,65 +1,63 @@
 <div class="register-wrapper">
   <div class="register-card">
-    <h2 class="register-title">Crea tu cuenta ✨</h2>
-    <p class="register-subtitle">Completa los datos para registrarte</p>
+    <h2 class="register-title">Crear cuenta 🧾</h2>
+    <p class="register-subtitle">Completa los campos para registrarte</p>
 
     <form>
       <div class="form-group">
         <label for="username">Usuario</label>
-        <input
-          type="text"
-          id="username"
-          [(ngModel)]="username"
-          name="username"
-          placeholder="Ingresa un usuario"
-          required
-        />
+        <input type="text" id="username" [(ngModel)]="username" name="username" placeholder="Ingresa un usuario" required />
       </div>
 
       <div class="form-group">
         <label for="email">Correo electrónico</label>
-        <input
-          type="email"
-          id="email"
-          [(ngModel)]="email"
-          name="email"
-          placeholder="Ingresa tu correo"
-          required
-        />
+        <input type="email" id="email" [(ngModel)]="email" name="email" placeholder="Ingresa tu correo" required />
       </div>
 
       <div class="form-group">
         <label for="password">Contraseña</label>
-        <input
-          type="password"
-          id="password"
-          [(ngModel)]="password"
-          name="password"
-          placeholder="Crea una contraseña"
-          required
-        />
+        <input type="password" id="password" [(ngModel)]="password" name="password" placeholder="Crea una contraseña" required />
       </div>
 
       <div class="form-group">
-        <label for="confirmPassword">Confirmar contraseña</label>
-        <input
-          type="password"
-          id="confirmPassword"
-          [(ngModel)]="confirmPassword"
-          name="confirmPassword"
-          placeholder="Repite la contraseña"
-          required
-        />
+        <label for="fullName">Nombre completo</label>
+        <input type="text" id="fullName" [(ngModel)]="fullName" name="fullName" placeholder="Tu nombre completo" required />
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Teléfono</label>
+        <input type="text" id="phone" [(ngModel)]="phone" name="phone" placeholder="Ej: +51 987654321" required />
+      </div>
+
+      <div class="form-group">
+        <label for="address">Dirección</label>
+        <input type="text" id="address" [(ngModel)]="address" name="address" placeholder="Ej: Av. Los Olivos 123" required />
+      </div>
+
+      <div class="form-group">
+        <label for="role">Rol</label>
+        <select id="role" [(ngModel)]="role" name="role" required>
+          <option value="">Selecciona un rol</option>
+          <option value="USER">Usuario</option>
+          <option value="ADMIN">Administrador</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="url">URL de imagen (opcional)</label>
+        <input type="text" id="url" [(ngModel)]="url" name="url" placeholder="https://ejemplo.com/foto.jpg" />
       </div>
 
       <button type="button" (click)="onRegister()">Registrarme</button>
 
       <p class="switch-auth">
         ¿Ya tienes cuenta?
-        <a routerLink="/login">Inicia sesión</a>
+        <a routerLink="/login">Regístrate</a>
       </p>
 
       <p class="message" [ngClass]="messageColor">{{ message }}</p>
     </form>
   </div>
 </div>
+
+
