@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule, NgIf, DatePipe } from '@angular/common';
+import { CommonModule, DatePipe, NgIf } from '@angular/common';
 import { User } from './user.model';
-import { UserService } from './user.service';
+import { LoginService } from '../login/login.service';
 
 @Component({
   selector: 'app-profile',
@@ -13,9 +13,11 @@ import { UserService } from './user.service';
 export class ProfileComponent implements OnInit {
   user: User | null = null;
 
-  constructor(private userService: UserService) {}
+  constructor(private loginService: LoginService) {}
 
   ngOnInit(): void {
-    this.userService.getLoggedUser().subscribe(user => this.user = user);
+    this.loginService.currentUser$.subscribe(user => {
+      this.user = user;
+    });
   }
 }
