@@ -1,7 +1,20 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Product } from '../../../../inventory/product.model';
+import { HttpClient } from '@angular/common/http';
+
+export interface Product {
+  id: number;
+  categoryId: number;
+  name: string;
+  quantity: number;
+  expirationDate: string;
+}
+
+export interface InventoryMonth {
+  month: string;
+  products: Product[];
+}
 
 @Component({
   selector: 'app-about',
@@ -11,48 +24,53 @@ import { Product } from '../../../../inventory/product.model';
   styleUrls: ['./about.css']
 })
 export class About {
-  newProduct: Product = {
-    id: 0,
-    categoryId: 0,
-    name: '',
-    quantity: 0,
-    expirationDate: ''
+  inventory: InventoryMonth = {
+    month: '',
+    products: [
+      {
+        id: 0,
+        categoryId: 0,
+        name: '',
+        quantity: 0,
+        expirationDate: ''
+      }
+    ]
   };
 
-  products: Product[] = [];
   message = '';
   messageType: 'success' | 'error' | '' = '';
 
-  ngOnInit() {
-    const saved = localStorage.getItem('todayProducts');
-    if (saved) this.products = JSON.parse(saved);
-  }
+  private apiUrl = 'https://inventatrack-azekbja3h9eyb0fy.canadacentral-01.azurewebsites.net/api/inventories';
+
+  constructor(private http: HttpClient) {}
 
   addProduct() {
-    if (
-      !this.newProduct.name ||
-      this.newProduct.quantity <= 0 ||
-      !this.newProduct.expirationDate
-    ) {
-      this.message = '⚠️ Por favor, completa todos los campos correctamente.';
+    const p = this.inventory.products[0];
+
+    if (!this.inventory.month || p.id <= 0 || p.categoryId <= 0 || !p.name || p.quantity <= 0 || !p.expirationDate) {
+      this.message = '⚠️ Completa todos los campos correctamente.';
       this.messageType = 'error';
       return;
     }
 
-    this.newProduct.id = this.products.length + 1;
-    this.products.push({ ...this.newProduct });
-
-    localStorage.setItem('todayProducts', JSON.stringify(this.products));
-
-    this.message = '✅ Producto añadido exitosamente.';
-    this.messageType = 'success';
-
-    this.newProduct = {
-      id: 0,
-      categoryId: 0,
-      name: '',
-      quantity: 0,
-      expirationDate: ''
-    };
+    this.http.post(this.apiUrl, this.inventory).subscribe({
+      next: () => {
+        this.message = '✅ Inventario registrado exitosamente.';
+        this.messageType = 'success';
+        // Limpiar formulario
+        this.inventory = {
+          month: '',
+          products: [
+            { id: 0, categoryId: 0, name: '', quantity: 0, expirationDate: '' }
+          ]
+        };
+      },
+      error: (err) => {
+        console.error('Error al registrar inventario:', err);
+        this.message = '❌ Ocurrió un error al registrar el inventario.';
+        this.messageType = 'error';
+      }
+    });
   }
 }
+
