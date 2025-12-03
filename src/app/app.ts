@@ -4,7 +4,7 @@ import {Layout} from './shared/presentation/components/layout/layout';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Layout],
+  imports: [Layout],
   templateUrl: './app.html',
   styleUrls: ['./app.css']
 })

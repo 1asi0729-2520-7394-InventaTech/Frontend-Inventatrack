@@ -4,7 +4,8 @@
     "about": "Add product",
     "inventory": "Inventory",
     "profile": "Profile",
-    "reports": "Reports"
+    "reports": "Reports",
+    "login": "Logout"
   },
   "page-not-found": {
     "title": "Page not found",

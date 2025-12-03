@@ -4,7 +4,8 @@
     "about": "Añadir producto",
     "inventory": "Inventario",
     "profile": "Perfil",
-    "reports": "Reportes"
+    "reports": "Reportes",
+    "login": "Cerrar sesión"
   },
   "page-not-found": {
     "title": "Página no encontrada",
