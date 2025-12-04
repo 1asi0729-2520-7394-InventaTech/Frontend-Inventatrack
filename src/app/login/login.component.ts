@@ -3,7 +3,8 @@ import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { LoginService } from './login.service';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -18,16 +19,35 @@ export class LoginComponent {
   errorMessage = '';
   loading = false;
 
-  constructor(private loginService: LoginService, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) {}
+
+  login(username: string, password: string): Observable<boolean> {
+    return new Observable<boolean>(observer => {
+      this.http.post<any>('/api/v1/auth/login', { username, password }).subscribe({
+        next: (res) => {
+          // Aquí asumimos que la API devuelve algo tipo { success: true/false }
+          if (res && res.success) {
+            observer.next(true);
+          } else {
+            observer.next(false);
+          }
+          observer.complete();
+        },
+        error: (err: HttpErrorResponse) => {
+          observer.error(err);
+        }
+      });
+    });
+  }
 
   onLogin() {
     this.loading = true;
     this.errorMessage = '';
 
-    this.loginService.login(this.username, this.password).subscribe({
-      next: (token: string) => {
+    this.login(this.username, this.password).subscribe({
+      next: (success: boolean) => {
         this.loading = false;
-        if (token) {
+        if (success) {
           this.router.navigate(['/home']);
         } else {
           this.errorMessage = '❌ Usuario o contraseña inválidos';
@@ -40,5 +60,6 @@ export class LoginComponent {
     });
   }
 }
+
 
 
