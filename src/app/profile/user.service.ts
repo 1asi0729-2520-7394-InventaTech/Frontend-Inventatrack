@@ -16,12 +16,15 @@ export class UserService {
 
   getLoggedUser(): Observable<User | null> {
     const user = this.loginService.getCurrentUser();
-    if (!user) return of(null);
+    const token = this.loginService.getToken();
+
+    if (!user || !token) return of(null);
 
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.loginService.getToken()}`
+      'Authorization': `Bearer ${token}`
     });
 
     return this.http.get<User>(`${this.apiUrl}/${user.id}`, { headers });
   }
 }
+
