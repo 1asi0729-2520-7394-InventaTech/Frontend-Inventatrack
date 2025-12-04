@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
 import { RegisterService } from './register.service';
 import { User } from '../profile/user.model';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterLink],
+  imports: [FormsModule, CommonModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
@@ -45,14 +45,13 @@ export class RegisterComponent {
     };
 
     this.registerService.register(newUser).subscribe({
-      next: (user) => {
-        console.log('Usuario registrado:', user);
+      next: () => {
         this.message = '✅ Usuario registrado exitosamente.';
         this.messageColor = 'success';
         setTimeout(() => this.router.navigate(['/login']), 1500);
       },
       error: (err) => {
-        console.error('Error al registrar usuario:', err);
+        console.error(err);
         this.message = '❌ Ocurrió un error al registrar el usuario.';
         this.messageColor = 'error';
       }
