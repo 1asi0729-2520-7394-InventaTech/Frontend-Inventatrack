@@ -23,7 +23,7 @@ export class RegisterComponent {
   message = '';
   messageColor = '';
 
-  private apiUrl = 'http://localhost:8080/api/v1/users';
+ private apiUrl = 'https://inventatrack-azekbja3h9eyb0fy.canadacentral-01.azurewebsites.net/api/v1/users';
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -66,5 +66,6 @@ export class RegisterComponent {
     });
   }
 }
+
 
 
