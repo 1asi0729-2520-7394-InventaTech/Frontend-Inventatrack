@@ -2,14 +2,13 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { RegisterService } from './register.service';
-import { User } from '../profile/user.model';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { LoginService } from '../login/login.service';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterLink],
+  imports: [FormsModule, CommonModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
@@ -25,16 +24,19 @@ export class RegisterComponent {
   message = '';
   messageColor = '';
 
-  constructor(private registerService: RegisterService, private router: Router) {}
+  private apiUrl = 'https://inventatrack-azekbja3h9eyb0fy.canadacentral-01.azurewebsites.net/api/v1/users';
+
+  constructor(private http: HttpClient, private router: Router, private loginService: LoginService) {}
 
   onRegister() {
+    // Validación básica
     if (!this.username || !this.email || !this.password || !this.fullName || !this.phone || !this.address || !this.role) {
       this.message = 'Por favor, completa todos los campos obligatorios.';
       this.messageColor = 'error';
       return;
     }
 
-    const newUser: Partial<User> = {
+    const newUser = {
       username: this.username,
       email: this.email,
       password: this.password,
@@ -45,24 +47,36 @@ export class RegisterComponent {
       url: this.url || 'https://via.placeholder.com/150'
     };
 
-    this.registerService.register(newUser).subscribe({
+    // Obtener token del usuario logueado
+    const token = this.loginService.getToken();
+    if (!token) {
+      this.message = '❌ Debes iniciar sesión primero como admin para registrar usuarios.';
+      this.messageColor = 'error';
+      return;
+    }
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    this.http.post(this.apiUrl, newUser, { headers, observe: 'response', responseType: 'text' }).subscribe({
       next: (resp) => {
         if (resp.status === 201 || resp.status === 200) {
           this.message = '✅ Usuario registrado exitosamente.';
           this.messageColor = 'success';
           setTimeout(() => this.router.navigate(['/login']), 1500);
         } else {
-          this.message = `❌ Ocurrió un error al registrar el usuario. (${resp.status})`;
+          this.message = '❌ Ocurrió un error al registrar el usuario.';
           this.messageColor = 'error';
         }
       },
       error: (err) => {
         console.error('Error al registrar usuario:', err);
-        this.message = `❌ Ocurrió un error al registrar el usuario. (${err.status || 0})`;
+        this.message = '❌ Ocurrió un error al registrar el usuario.';
         this.messageColor = 'error';
       }
     });
   }
 }
-
 
