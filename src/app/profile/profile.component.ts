@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule, DatePipe, NgIf } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { User } from './user.model';
-import { LoginService } from '../login/login.service';
+import { UserService } from './user.service';
 
 @Component({
   selector: 'app-profile',
@@ -13,14 +14,16 @@ import { LoginService } from '../login/login.service';
 export class ProfileComponent implements OnInit {
   user: User | null = null;
 
-  constructor(private loginService: LoginService) {}
+  constructor(private userService: UserService) {}
 
   ngOnInit(): void {
-    this.loginService.currentUser$.subscribe((user: User | null) => {
+    // Suscribirse al usuario actual
+    this.userService.currentUser$.subscribe((user: User | null) => {
       this.user = user;
     });
+
     if (!this.user) {
-      this.user = this.loginService.getCurrentUser();
+      this.user = this.userService.getLoggedUserSync();
     }
   }
 }
