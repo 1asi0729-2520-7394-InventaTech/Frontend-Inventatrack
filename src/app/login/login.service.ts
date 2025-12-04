@@ -5,31 +5,30 @@ import { User } from '../profile/user.model';
 
 @Injectable({ providedIn: 'root' })
 export class LoginService {
-  private apiUrl = 'https://inventatrack-azekbja3h9eyb0fy.canadacentral-01.azurewebsites.net/api/v1/auth/login';
-
+  private apiUrl = 'https://inventatrack-azekbja3h9eyb0fy.canadacentral-01.azurewebsites.net/api/v1/auth/login'
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   currentUser$ = this.currentUserSubject.asObservable();
 
   constructor(private http: HttpClient) {}
 
-  login(username: string, password: string): Observable<User | null> {
-    return this.http.post<User | null>(this.apiUrl, { username, password }).pipe(
-      tap(user => {
-        if (user) {
-          // Guardar usuario en memoria y en localStorage
-          this.currentUserSubject.next(user);
-          localStorage.setItem('loggedUser', JSON.stringify(user));
+  login(username: string, password: string): Observable<any> {
+    return this.http.post<any>(this.apiUrl, { username, password }).pipe(
+      tap(response => {
+        if (response.token) {
+          localStorage.setItem('token', response.token);
         }
       })
     );
   }
 
+
   getCurrentUser(): User | null {
-    return this.currentUserSubject.value || JSON.parse(localStorage.getItem('loggedUser') || 'null');
+    return this.currentUserSubject.value;
   }
 
   logout(): void {
     this.currentUserSubject.next(null);
-    localStorage.removeItem('loggedUser');
   }
 }
+
+
