@@ -21,27 +21,26 @@ export class LoginComponent {
 
   constructor(private loginService: LoginService, private router: Router) {}
 
-  onLogin() {
-    this.loading = true;
-    this.errorMessage = '';
+onLogin() {
+  this.loading = true;
+  this.errorMessage = '';
 
-    this.loginService.login(this.username, this.password).subscribe({
-      next: (user: User | null) => {
-        this.loading = false;
-
-        if (user) {
-          localStorage.setItem('loggedUserId', user.id.toString());
-
-          this.router.navigate(['/home']);
-        } else {
-          this.errorMessage = '❌ Usuario o contraseña inválidos';
-        }
-      },
-      error: () => {
-        this.loading = false;
-        this.errorMessage = '⚠️ Error de conexión con el servidor';
+  this.loginService.login(this.username, this.password).subscribe({
+    next: (token: string) => {
+      this.loading = false;
+      if (token) {
+        this.router.navigate(['/home']); // redirigir al home
+      } else {
+        this.errorMessage = '❌ Usuario o contraseña inválidos';
       }
-    });
-  }
+    },
+    error: () => {
+      this.loading = false;
+      this.errorMessage = '⚠️ Error de conexión con el servidor';
+    }
+  });
 }
+
+}
+
 
