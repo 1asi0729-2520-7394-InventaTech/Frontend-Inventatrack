@@ -26,7 +26,18 @@ export class LoginService {
         localStorage.setItem('jwtToken', res.token);
         this.currentTokenSubject.next(res.token);
 
-        const user: User = res.user || { id: 0, username, email: '', fullName: '', phone: '', address: '', role: '', createdAt: '', password: '', url: '' };
+        const user: User = res.user || {
+          id: 0,
+          username,
+          email: '',
+          fullName: '',
+          phone: '',
+          address: '',
+          role: '',
+          createdAt: '',
+          password: '',
+          url: ''
+        };
         localStorage.setItem('loggedUser', JSON.stringify(user));
         this.currentUserSubject.next(user);
       }),
@@ -49,3 +60,5 @@ export class LoginService {
     this.currentUserSubject.next(null);
   }
 }
+
+
