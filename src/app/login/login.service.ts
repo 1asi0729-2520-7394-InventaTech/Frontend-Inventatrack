@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap, map } from 'rxjs';
+import { BehaviorSubject, Observable, map, tap } from 'rxjs';
 import { User } from '../profile/user.model';
 
 interface TokenResponse {
@@ -26,19 +26,7 @@ export class LoginService {
         localStorage.setItem('jwtToken', res.token);
         this.currentTokenSubject.next(res.token);
 
-        // usar un User completo o uno vacío con username
-        const user: User = res.user || {
-          id: 0,
-          username,
-          email: '',
-          fullName: '',
-          phone: '',
-          address: '',
-          role: '',
-          createdAt: '',
-          password: '',
-          url: ''
-        };
+        const user: User = res.user || { id: 0, username, email: '', fullName: '', phone: '', address: '', role: '', createdAt: '', password: '', url: '' };
         localStorage.setItem('loggedUser', JSON.stringify(user));
         this.currentUserSubject.next(user);
       }),
@@ -61,4 +49,3 @@ export class LoginService {
     this.currentUserSubject.next(null);
   }
 }
-
