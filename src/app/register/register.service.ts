@@ -2,25 +2,20 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../profile/user.model';
-import { LoginService } from '../login/login.service';
 
 @Injectable({ providedIn: 'root' })
 export class RegisterService {
   private apiUrl = 'https://inventatrack-azekbja3h9eyb0fy.canadacentral-01.azurewebsites.net/api/v1/users';
+  private adminToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2NDgyMTk4OSwiZXhwIjoxNzY0OTA4Mzg5fQ.rdDXpVY8z3SLTgCeM27BEvPAZTxKWEWlrAFRkNaHqMo';
 
-  constructor(private http: HttpClient, private loginService: LoginService) {}
+  constructor(private http: HttpClient) {}
 
-  register(user: Partial<User>): Observable<User> {
-    const token = this.loginService.getToken();
-    if (!token) {
-      throw new Error('Usuario no autorizado. Debe iniciar sesión como admin.');
-    }
-
+  register(user: Partial<User>): Observable<any> {
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`,
+      'Authorization': `Bearer ${this.adminToken}`,
       'Content-Type': 'application/json'
     });
 
-    return this.http.post<User>(this.apiUrl, user, { headers });
+    return this.http.post(this.apiUrl, user, { headers, observe: 'response' });
   }
 }
