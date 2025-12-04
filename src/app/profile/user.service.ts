@@ -1,30 +1,25 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { LoginService } from '../login/login.service';
+import { HttpClient } from '@angular/common/http';
 import { User } from './user.model';
 import { Observable, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  private apiUrl = 'https://inventatrack-azekbja3h9eyb0fy.canadacentral-01.azurewebsites.net/api/v1/users';
+   private apiUrl = 'https://inventatrack-azekbja3h9eyb0fy.canadacentral-01.azurewebsites.net/api/v1/users';
 
-  constructor(private loginService: LoginService, private http: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
-  get currentUser$(): Observable<User | null> {
-    return this.loginService.currentUser$;
+  getUserById(id: number): Observable<User | null> {
+    return this.http.get<User[]>(`${this.apiUrl}?id=${id}`).pipe(
+      map(users => users.length > 0 ? users[0] : null),
+      catchError(() => of(null))
+    );
   }
 
   getLoggedUser(): Observable<User | null> {
-    const user = this.loginService.getCurrentUser();
-    const token = this.loginService.getToken();
-
-    if (!user || !token) return of(null);
-
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-
-    return this.http.get<User>(`${this.apiUrl}/${user.id}`, { headers });
+    const id = localStorage.getItem('loggedUserId');
+    if (!id) return of(null);
+    return this.getUserById(Number(id));
   }
 }
-
