@@ -1,28 +1,37 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { User } from '../profile/user.model';
+import { BehaviorSubject, Observable, tap, map } from 'rxjs';
+
+interface TokenResponse {
+  token: string;
+}
 
 @Injectable({ providedIn: 'root' })
 export class LoginService {
-  private apiUrl = 'https://inventatrack-azekbja3h9eyb0fy.canadacentral-01.azurewebsites.net/api/v1/auth/login'
+  private apiUrl = 'https://inventatrack-azekbja3h9eyb0fy.canadacentral-01.azurewebsites.net/api/v1/auth/login';
 
-  private currentUserSubject = new BehaviorSubject<User | null>(null);
-  currentUser$ = this.currentUserSubject.asObservable();
+  private currentTokenSubject = new BehaviorSubject<string | null>(null);
+  currentToken$ = this.currentTokenSubject.asObservable();
 
   constructor(private http: HttpClient) {}
 
-  login(username: string, password: string): Observable<User> {
-    return this.http.post<User>(this.apiUrl, { username, password }).pipe(
-      tap(user => this.currentUserSubject.next(user))
+  login(username: string, password: string): Observable<string> {
+    return this.http.post<TokenResponse>(this.apiUrl, { username, password }).pipe(
+      tap(res => {
+        localStorage.setItem('jwtToken', res.token); // guardar token
+        this.currentTokenSubject.next(res.token);
+      }),
+      map(res => res.token) // devolver el token en el subscribe
     );
   }
 
-  getCurrentUser(): User | null {
-    return this.currentUserSubject.value;
+  getToken(): string | null {
+    return this.currentTokenSubject.value || localStorage.getItem('jwtToken');
   }
 
   logout(): void {
-    this.currentUserSubject.next(null);
+    localStorage.removeItem('jwtToken');
+    this.currentTokenSubject.next(null);
   }
 }
+
