@@ -26,11 +26,11 @@ export class LoginComponent {
     this.errorMessage = '';
 
     this.loginService.login(this.username, this.password).subscribe({
-      next: (response: any) => {
+      next: (user: User | null) => {
         this.loading = false;
 
-        if (response && response.token) {
-          localStorage.setItem('token', response.token);
+        if (user) {
+          // Usuario válido, redirigir a home
           this.router.navigate(['/home']);
         } else {
           this.errorMessage = '❌ Usuario o contraseña inválidos';
@@ -43,3 +43,4 @@ export class LoginComponent {
     });
   }
 }
+
