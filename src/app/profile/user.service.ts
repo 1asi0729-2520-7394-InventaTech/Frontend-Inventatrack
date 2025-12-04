@@ -12,6 +12,5 @@ export class UserService {
     return of(user);
   }
 
-  // Alternativa si quieres exponerlo como BehaviorSubject
   currentUser$ = this.loginService.currentUser$;
 }
