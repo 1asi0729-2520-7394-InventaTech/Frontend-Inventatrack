@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RegisterService } from './register.service';
-import { User } from '../profile/user.model';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-register',
@@ -24,7 +23,9 @@ export class RegisterComponent {
   message = '';
   messageColor = '';
 
-  constructor(private registerService: RegisterService, private router: Router) {}
+  private apiUrl = 'https://inventatrack-azekbja3h9eyb0fy.canadacentral-01.azurewebsites.net/api/v1/users';
+
+  constructor(private http: HttpClient, private router: Router) {}
 
   onRegister() {
     if (!this.username || !this.email || !this.password || !this.fullName || !this.phone || !this.address || !this.role) {
@@ -33,7 +34,7 @@ export class RegisterComponent {
       return;
     }
 
-    const newUser: Partial<User> = {
+    const newUser = {
       username: this.username,
       email: this.email,
       password: this.password,
@@ -44,16 +45,24 @@ export class RegisterComponent {
       url: this.url || 'https://via.placeholder.com/150'
     };
 
-    this.registerService.register(newUser).subscribe({
+    this.http.post(this.apiUrl, newUser, { responseType: 'text' }).subscribe({
       next: () => {
+        // Usuario registrado correctamente
         this.message = '✅ Usuario registrado exitosamente.';
         this.messageColor = 'success';
         setTimeout(() => this.router.navigate(['/login']), 1500);
       },
       error: (err) => {
-        console.error(err);
-        this.message = '❌ Ocurrió un error al registrar el usuario.';
-        this.messageColor = 'error';
+        console.error('Error al registrar usuario:', err);
+        if (err.status === 201 || err.status === 200) {
+          // Backend devolvió status correcto pero Angular lo considera error porque no es JSON
+          this.message = '✅ Usuario registrado exitosamente.';
+          this.messageColor = 'success';
+          setTimeout(() => this.router.navigate(['/login']), 1500);
+        } else {
+          this.message = '❌ Ocurrió un error al registrar el usuario.';
+          this.messageColor = 'error';
+        }
       }
     });
   }
