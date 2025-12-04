@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, RouterLink],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
@@ -45,17 +45,9 @@ export class RegisterComponent {
       url: this.url || 'https://via.placeholder.com/150'
     };
 
-    this.http.post(this.apiUrl, newUser, { responseType: 'text' }).subscribe({
-      next: () => {
-        // Usuario registrado correctamente
-        this.message = '✅ Usuario registrado exitosamente.';
-        this.messageColor = 'success';
-        setTimeout(() => this.router.navigate(['/login']), 1500);
-      },
-      error: (err) => {
-        console.error('Error al registrar usuario:', err);
-        if (err.status === 201 || err.status === 200) {
-          // Backend devolvió status correcto pero Angular lo considera error porque no es JSON
+    this.http.post(this.apiUrl, newUser, { observe: 'response', responseType: 'text' }).subscribe({
+      next: (resp) => {
+        if (resp.status === 201 || resp.status === 200) {
           this.message = '✅ Usuario registrado exitosamente.';
           this.messageColor = 'success';
           setTimeout(() => this.router.navigate(['/login']), 1500);
@@ -63,10 +55,16 @@ export class RegisterComponent {
           this.message = '❌ Ocurrió un error al registrar el usuario.';
           this.messageColor = 'error';
         }
+      },
+      error: (err) => {
+        console.error('Error al registrar usuario:', err);
+        this.message = '❌ Ocurrió un error al registrar el usuario.';
+        this.messageColor = 'error';
       }
     });
   }
 }
+
 
 
 
