@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { LoginService } from '../login/login.service'; // Importar LoginService
 
 export interface Product {
   id: number;
@@ -38,7 +37,7 @@ export class InventoryComponent implements OnInit {
 
   private apiUrl = 'https://inventatrack-azekbja3h9eyb0fy.canadacentral-01.azurewebsites.net/api/inventories';
 
-  constructor(private http: HttpClient, private loginService: LoginService) {}
+  constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
     this.fetchInventory();
@@ -46,14 +45,7 @@ export class InventoryComponent implements OnInit {
 
   fetchInventory(): void {
     this.isLoading = true;
-
-    // Obtener token JWT
-    const token = this.loginService.getToken();
-    const headers = token
-      ? new HttpHeaders().set('Authorization', `Bearer ${token}`)
-      : undefined;
-
-    this.http.get<InventoryMonth[]>(this.apiUrl, { headers }).subscribe({
+    this.http.get<InventoryMonth[]>(this.apiUrl).subscribe({
       next: (data) => {
         this.allData = data;
         this.months = data.map(entry => entry.month);
