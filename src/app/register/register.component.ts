@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { RegisterService } from './register.service';
+import { User } from '../profile/user.model';
 
 @Component({
   selector: 'app-register',
@@ -23,9 +24,7 @@ export class RegisterComponent {
   message = '';
   messageColor = '';
 
-  private apiUrl = 'https://inventatrack-azekbja3h9eyb0fy.canadacentral-01.azurewebsites.net/api/v1/users';
-
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private registerService: RegisterService, private router: Router) {}
 
   onRegister() {
     if (!this.username || !this.email || !this.password || !this.fullName || !this.phone || !this.address || !this.role) {
@@ -34,7 +33,7 @@ export class RegisterComponent {
       return;
     }
 
-    const newUser = {
+    const newUser: Partial<User> = {
       username: this.username,
       email: this.email,
       password: this.password,
@@ -45,20 +44,22 @@ export class RegisterComponent {
       url: this.url || 'https://via.placeholder.com/150'
     };
 
-    this.http.post(this.apiUrl, newUser, { responseType: 'text' }).subscribe({
-      next: () => {
+    this.registerService.register(newUser).subscribe({
+      next: (user) => {
+        console.log('Usuario registrado:', user);
         this.message = '✅ Usuario registrado exitosamente.';
         this.messageColor = 'success';
         setTimeout(() => this.router.navigate(['/login']), 1500);
       },
       error: (err) => {
-        console.error(err);
+        console.error('Error al registrar usuario:', err);
         this.message = '❌ Ocurrió un error al registrar el usuario.';
         this.messageColor = 'error';
       }
     });
   }
 }
+
 
 
 
