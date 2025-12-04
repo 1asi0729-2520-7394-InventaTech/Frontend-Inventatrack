@@ -1,11 +1,19 @@
+import { Routes } from '@angular/router';
 import { Home } from './shared/presentation/views/home/home';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 
-
 const about = () =>
     import('./shared/presentation/views/about/about').then(m => m.About);
-@@ -17,13 +18,13 @@ const reports = () =>
+const pageNotFound = () =>
+    import('./shared/presentation/views/page-not-found/page-not-found').then(m => m.PageNotFound);
+const inventory = () =>
+    import('./inventory/inventory.component').then(m => m.InventoryComponent);
+const profile = () =>
+    import('./profile/profile.component').then(m => m.ProfileComponent);
+const reports = () =>
+    import('./reports/reports.component').then(m => m.ReportsComponent);
+
 const baseTitle = 'InventaTrack';
 
 export const routes: Routes = [
