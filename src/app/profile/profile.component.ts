@@ -17,13 +17,14 @@ export class ProfileComponent implements OnInit {
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
-    // Suscribirse al usuario actual
     this.userService.currentUser$.subscribe((user: User | null) => {
       this.user = user;
     });
 
     if (!this.user) {
-      this.user = this.userService.getLoggedUserSync();
+      this.userService.getLoggedUser().subscribe(user => {
+        this.user = user;
+      });
     }
   }
 }
