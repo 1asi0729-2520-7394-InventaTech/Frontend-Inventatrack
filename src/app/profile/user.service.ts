@@ -1,18 +1,27 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LoginService } from '../login/login.service';
 import { User } from './user.model';
 import { Observable, of } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
+  private apiUrl = 'https://inventatrack-azekbja3h9eyb0fy.canadacentral-01.azurewebsites.net/api/v1/users';
 
-  constructor(private loginService: LoginService) {}
+  constructor(private loginService: LoginService, private http: HttpClient) {}
 
   get currentUser$(): Observable<User | null> {
     return this.loginService.currentUser$;
   }
 
   getLoggedUser(): Observable<User | null> {
-    return of(this.loginService.getCurrentUser());
+    const user = this.loginService.getCurrentUser();
+    if (!user) return of(null);
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.loginService.getToken()}`
+    });
+
+    return this.http.get<User>(`${this.apiUrl}/${user.id}`, { headers });
   }
 }
