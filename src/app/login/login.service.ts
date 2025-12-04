@@ -3,8 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap, map } from 'rxjs';
 
 export interface User {
-  id?: number;       
+  id?: number;
   username: string;
+  email?: string;
+  fullName?: string;
+  phone?: string;
+  address?: string;
+  role?: string;         
+  [key: string]: any;     
 }
 
 interface TokenResponse {
@@ -29,8 +35,16 @@ export class LoginService {
       tap(res => {
         localStorage.setItem('jwtToken', res.token);
         this.currentTokenSubject.next(res.token);
+        const user: User = {
+          id: res.user?.id,
+          username: res.user?.username || username,
+          email: res.user?.email || '',
+          fullName: res.user?.fullName || '',
+          phone: res.user?.phone || '',
+          address: res.user?.address || '',
+          role: res.user?.role || 'USER'
+        };
 
-        const user: User = res.user || { username };
         localStorage.setItem('loggedUser', JSON.stringify(user));
         this.currentUserSubject.next(user);
       }),
