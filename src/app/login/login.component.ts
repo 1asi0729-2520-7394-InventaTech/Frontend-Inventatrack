@@ -26,9 +26,11 @@ export class LoginComponent {
     this.errorMessage = '';
 
     this.loginService.login(this.username, this.password).subscribe({
-      next: (user: User | null) => {
+      next: (response: any) => {
         this.loading = false;
-        if (user) {
+
+        if (response && response.token) {
+          localStorage.setItem('token', response.token);
           this.router.navigate(['/home']);
         } else {
           this.errorMessage = '❌ Usuario o contraseña inválidos';
