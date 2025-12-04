@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { LoginService } from '../login/login.service';
+import { User } from '../profile/user.model';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterLink],
+  imports: [FormsModule, CommonModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
@@ -25,7 +27,7 @@ export class RegisterComponent {
 
   private apiUrl = 'https://inventatrack-azekbja3h9eyb0fy.canadacentral-01.azurewebsites.net/api/v1/users';
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private loginService: LoginService) {}
 
   onRegister() {
     if (!this.username || !this.email || !this.password || !this.fullName || !this.phone || !this.address || !this.role) {
@@ -34,7 +36,7 @@ export class RegisterComponent {
       return;
     }
 
-    const newUser = {
+    const newUser: Partial<User> = {
       username: this.username,
       email: this.email,
       password: this.password,
@@ -45,7 +47,18 @@ export class RegisterComponent {
       url: this.url || 'https://via.placeholder.com/150'
     };
 
-    this.http.post(this.apiUrl, newUser, { observe: 'response', responseType: 'text' }).subscribe({
+    const token = this.loginService.getToken();
+    if (!token) {
+      this.message = '❌ Debes iniciar sesión como admin para crear usuarios.';
+      this.messageColor = 'error';
+      return;
+    }
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
+    this.http.post(this.apiUrl, newUser, { headers, observe: 'response', responseType: 'text' }).subscribe({
       next: (resp) => {
         if (resp.status === 201 || resp.status === 200) {
           this.message = '✅ Usuario registrado exitosamente.';
@@ -58,7 +71,7 @@ export class RegisterComponent {
       },
       error: (err) => {
         console.error('Error al registrar usuario:', err);
-        this.message = '❌ Ocurrió un error al registrar el usuario.';
+        this.message = `❌ Ocurrió un error: ${err.status} - ${err.error}`;
         this.messageColor = 'error';
       }
     });
