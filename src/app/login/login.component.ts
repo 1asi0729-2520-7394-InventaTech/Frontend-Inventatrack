@@ -40,14 +40,19 @@ export class LoginComponent {
     });
   }
 
+constructor(private loginService: LoginService, private router: Router) {}
+
   onLogin() {
     this.loading = true;
     this.errorMessage = '';
 
-    this.login(this.username, this.password).subscribe({
-      next: (success: boolean) => {
+    this.loginService.login(this.username, this.password).subscribe({
+      next: (user: User | null) => {
         this.loading = false;
-        if (success) {
+
+        if (user) {
+          localStorage.setItem('loggedUserId', user.id.toString());
+
           this.router.navigate(['/home']);
         } else {
           this.errorMessage = '❌ Usuario o contraseña inválidos';
@@ -59,7 +64,12 @@ export class LoginComponent {
       }
     });
   }
+
+
+
+
 }
+
 
 
 
