@@ -53,21 +53,21 @@
     }
   },
   "home_content": {
-    "welcome": "👋 Hello, welcome to <span class=\"highlight\">InventaTrack</span>!",
-    "subtitle": "Here you can monitor your products, check alerts, and keep your inventory under control.",
+    "welcome": "👋 ¡Hola, bienvenido a <span class=\"highlight\">InventaTrack</span>!",
+    "subtitle": "Aquí podrás monitorear tus productos, revisar alertas y mantener tu inventario siempre bajo control.",
     "cards": {
-      "registered": "📦 Registered Products",
-      "registered_detail": "Total products currently in the system.",
-      "warning": "⚠️ Products Expiring Soon",
-      "warning_detail": "Check these products before they expire.",
-      "low_stock": "📉 Low Stock",
-      "low_stock_detail": "Restock soon to avoid inventory shortages."
+      "registered": "📦 Productos registrados",
+      "registered_detail": "Total de productos actualmente en el sistema.",
+      "warning": "⚠️ Productos por vencer",
+      "warning_detail": "Revisa estos productos antes de que expiren.",
+      "low_stock": "📉 Bajo stock",
+      "low_stock_detail": "Reabastece pronto para evitar quiebres de inventario."
     },
     "tips": {
-      "title": "Usage Tips",
-      "tip1": "✅ Keep your inventory updated for accurate alerts.",
-      "tip2": "🔔 Check daily notifications to avoid waste.",
-      "tip3": "📊 Generate monthly reports to analyze your consumption."
+      "title": "Consejos de uso",
+      "tip1": "✅ Mantén tu inventario actualizado para obtener alertas precisas.",
+      "tip2": "🔔 Revisa las notificaciones diarias para evitar desperdicios.",
+      "tip3": "📊 Genera reportes mensuales para analizar tu consumo."
     }
   }
 }
