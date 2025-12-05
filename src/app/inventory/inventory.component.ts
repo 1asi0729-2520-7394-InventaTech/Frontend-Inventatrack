@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 export interface Product {
   id: number;
@@ -22,7 +23,7 @@ export interface InventoryMonth {
   templateUrl: './inventory.component.html',
   styleUrls: ['./inventory.component.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   providers: [DatePipe]
 })
 export class InventoryComponent implements OnInit {
@@ -37,7 +38,7 @@ export class InventoryComponent implements OnInit {
 
   private apiUrl = 'https://inventatrack-azekbja3h9eyb0fy.canadacentral-01.azurewebsites.net/api/inventories';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private translate: TranslateService) {}
 
   ngOnInit(): void {
     this.fetchInventory();

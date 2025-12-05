@@ -1,10 +1,10 @@
 <div class="inventory-container">
-  <h2>Inventario de Productos</h2>
+  <h2>{{ 'inventory.title' | translate }}</h2>
 
   <div class="filters">
     <input
       type="text"
-      placeholder="🔍 Buscar por nombre..."
+      [placeholder]="'inventory.search_placeholder' | translate"
       [(ngModel)]="searchTerm"
       (input)="applyFilters()"
     />
@@ -44,7 +44,7 @@
   </table>
 
   <ng-template #noProducts>
-    <p>No hay productos disponibles para el mes seleccionado.</p>
+    <p>{{ 'inventory.no_products' | translate }}</p>
   </ng-template>
 </div>
 
