@@ -51,5 +51,23 @@
       "success": "✅ Inventario registrado exitosamente.",
       "error": "❌ Ocurrió un error al registrar el inventario."
     }
+  },
+  "home_content": {
+    "welcome": "👋 Hello, welcome to <span class=\"highlight\">InventaTrack</span>!",
+    "subtitle": "Here you can monitor your products, check alerts, and keep your inventory under control.",
+    "cards": {
+      "registered": "📦 Registered Products",
+      "registered_detail": "Total products currently in the system.",
+      "warning": "⚠️ Products Expiring Soon",
+      "warning_detail": "Check these products before they expire.",
+      "low_stock": "📉 Low Stock",
+      "low_stock_detail": "Restock soon to avoid inventory shortages."
+    },
+    "tips": {
+      "title": "Usage Tips",
+      "tip1": "✅ Keep your inventory updated for accurate alerts.",
+      "tip2": "🔔 Check daily notifications to avoid waste.",
+      "tip3": "📊 Generate monthly reports to analyze your consumption."
+    }
   }
 }
