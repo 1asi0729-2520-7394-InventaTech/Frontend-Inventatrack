@@ -1,4 +1,4 @@
-export interface Product {
+/**export interface Product {
   id: number;
   categoryId: number;
   name: string;
@@ -9,4 +9,4 @@ export interface Product {
 export interface InventoryMonth {
   month: string;
   products: Product[];
-}
+}**/
