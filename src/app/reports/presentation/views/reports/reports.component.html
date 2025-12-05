@@ -1,4 +1,4 @@
-<div class="reports-container" *ngIf="!loading; else loadingTpl">
+<div class="reports-container" *ngIf="!isLoading; else loadingTpl">
   <h2 class="title">📊 Reportes de Inventario</h2>
 
   <button class="btn-export" (click)="exportPDF()">📄 Exportar Reporte a PDF</button>
@@ -6,9 +6,9 @@
   <div id="report-section" class="report-content">
     <section class="report-section">
       <h3 class="section-title">Productos con Cantidad Baja (&lt; 10)</h3>
-      <p *ngIf="lowQuantityProducts.length === 0" class="empty-message">No hay productos con cantidad baja.</p>
-      <ul *ngIf="lowQuantityProducts.length > 0" class="product-list">
-        <li *ngFor="let p of lowQuantityProducts" class="product-item">
+      <p *ngIf="lowStockProducts.length === 0" class="empty-message">No hay productos con cantidad baja.</p>
+      <ul *ngIf="lowStockProducts.length > 0" class="product-list">
+        <li *ngFor="let p of lowStockProducts()" class="product-item">
           <span class="product-name">{{ p.name }}</span>
           <span class="product-quantity">Cantidad: <strong>{{ p.quantity }}</strong></span>
         </li>
@@ -19,7 +19,7 @@
       <h3 class="section-title">Productos Próximos a Vencer (7 días)</h3>
       <p *ngIf="expiringSoonProducts.length === 0" class="empty-message">No hay productos próximos a vencer.</p>
       <ul *ngIf="expiringSoonProducts.length > 0" class="product-list">
-        <li *ngFor="let p of expiringSoonProducts" class="product-item">
+        <li *ngFor="let p of expiringSoonProducts()" class="product-item">
           <span class="product-name">{{ p.name }}</span>
           <span class="product-expiration">Vence el: <strong>{{ p.expirationDate | date:'dd/MM/yyyy' }}</strong></span>
         </li>
