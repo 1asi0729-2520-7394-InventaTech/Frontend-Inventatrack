@@ -1,0 +1,12 @@
+<div *ngIf="user()" class="profile-container">
+  <h2>Perfil de {{ user()?.username }}</h2>
+
+  <div class="card">
+    <p><strong>Nombre:</strong> {{ user()?.firstName }} {{ user()?.lastName }}</p>
+    <p><strong>Email:</strong> {{ user()?.email }}</p>
+    <p><strong>Roles:</strong> {{ user()?.roles?.join(', ') }}</p>
+  </div>
+</div>
+<div *ngIf="!user()">
+  <p>No has iniciado sesión.</p>
+</div>
