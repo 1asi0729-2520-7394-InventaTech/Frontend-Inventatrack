@@ -16,6 +16,41 @@
     "rights": "All rights reserved.",
     "powered-by": "Powered by InventaTech",
     "and": "and"
+  },
+  "inventory": {
+    "title": "Product Inventory",
+    "search_placeholder": "Search by name",
+    "table": {
+      "id": "ID",
+      "name": "Name",
+      "quantity": "Quantity",
+      "expiration": "Expiration Date",
+      "status": "Status"
+    },
+    "status": {
+      "expired": "🛑 EXPIRED",
+      "near_expiration": "⚠️ Expiring soon",
+      "ok": "✅ OK"
+    },
+    "no_products": "No products available for the selected month.",
+    "error_load": "Error loading inventory. Please try again later."
+  },
+  "add_product": {
+    "title": "Register New Inventory",
+    "label": {
+      "month": "Month (yyyy-MM)",
+      "product_id": "Product ID",
+      "category_id": "Category ID",
+      "name": "Product Name",
+      "quantity": "Quantity",
+      "expiration": "Expiration Date"
+    },
+    "button": "Register Inventory",
+    "msg": {
+      "complete_fields": "⚠️ Please complete all fields correctly.",
+      "success": "✅ Inventory registered successfully.",
+      "error": "❌ An error occurred while registering the inventory."
+    }
   }
 }
 

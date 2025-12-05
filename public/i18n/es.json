@@ -16,5 +16,40 @@
     "rights": "Todos los derechos reservados.",
     "powered-by": "Desarrollado por InventaTech",
     "and": "y"
+  },
+  "inventory": {
+    "title": "Inventario de Productos",
+    "search_placeholder": "Buscar por nombre",
+    "table": {
+      "id": "ID",
+      "name": "Nombre",
+      "quantity": "Cantidad",
+      "expiration": "Fecha de Vencimiento",
+      "status": "Estado"
+    },
+    "status": {
+      "expired": "🛑 VENCIDO",
+      "near_expiration": "⚠️ Por vencer",
+      "ok": "✅ OK"
+    },
+    "no_products": "No hay productos disponibles para el mes seleccionado.",
+    "error_load": "Error al cargar el inventario. Intenta más tarde."
+  },
+  "add_product": {
+    "title": "Registrar Nuevo Inventario",
+    "label": {
+      "month": "Mes (yyyy-MM)",
+      "product_id": "ID del producto",
+      "category_id": "ID de categoría",
+      "name": "Nombre del producto",
+      "quantity": "Cantidad",
+      "expiration": "Fecha de vencimiento"
+    },
+    "button": "Registrar Inventario",
+    "msg": {
+      "complete_fields": "⚠️ Completa todos los campos correctamente.",
+      "success": "✅ Inventario registrado exitosamente.",
+      "error": "❌ Ocurrió un error al registrar el inventario."
+    }
   }
 }
