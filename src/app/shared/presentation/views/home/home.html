@@ -1,37 +1,37 @@
 <div class="home-container" role="main" aria-labelledby="home-title">
   <section class="welcome">
-    <h1 id="home-title">👋 ¡Hola, bienvenido a <span class="highlight">InventaTrack</span>!</h1>
+    <h1 id="home-title" [innerHTML]="'home_content.welcome' | translate"></h1>
     <p class="subtitle">
-      Aquí podrás monitorear tus productos, revisar alertas y mantener tu inventario siempre bajo control.
+      {{ 'home_content.subtitle' | translate }}
     </p>
   </section>
 
   <section class="dashboard">
     <div class="card summary">
-      <h3>📦 Productos registrados</h3>
+      <h3>{{ 'home_content.cards.registered' | translate }}</h3>
       <p class="number">124</p>
-      <p class="detail">Total de productos actualmente en el sistema.</p>
+      <p class="detail">{{ 'home_content.cards.registered_detail' | translate }}</p>
     </div>
 
     <div class="card summary warning">
-      <h3>⚠️ Productos por vencer</h3>
+      <h3>{{ 'home_content.cards.warning' | translate }}</h3>
       <p class="number">6</p>
-      <p class="detail">Revisa estos productos antes de que expiren.</p>
+      <p class="detail">{{ 'home_content.cards.warning_detail' | translate }}</p>
     </div>
 
     <div class="card summary stock">
-      <h3>📉 Bajo stock</h3>
+      <h3>{{ 'home_content.cards.low_stock' | translate }}</h3>
       <p class="number">4</p>
-      <p class="detail">Reabastece pronto para evitar quiebres de inventario.</p>
+      <p class="detail">{{ 'home_content.cards.low_stock_detail' | translate }}</p>
     </div>
   </section>
 
   <section class="tips">
-    <h2>Consejos de uso</h2>
+    <h2>{{ 'home_content.tips.title' | translate }}</h2>
     <ul>
-      <li>✅ Mantén tu inventario actualizado para obtener alertas precisas.</li>
-      <li>🔔 Revisa las notificaciones diarias para evitar desperdicios.</li>
-      <li>📊 Genera reportes mensuales para analizar tu consumo.</li>
+      <li>{{ 'home_content.tips.tip1' | translate }}</li>
+      <li>{{ 'home_content.tips.tip2' | translate }}</li>
+      <li>{{ 'home_content.tips.tip3' | translate }}</li>
     </ul>
   </section>
 </div>
