@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+/**import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { User } from '../profile/user.model';
@@ -32,5 +32,5 @@ export class LoginService {
     this.currentUserSubject.next(null);
     localStorage.removeItem('loggedUser');
   }
-}
+}**/
 

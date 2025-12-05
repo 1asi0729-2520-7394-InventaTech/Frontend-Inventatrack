@@ -1,0 +1,103 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "123",
+      "firstName": "Admin",
+      "lastName": "Principal",
+      "email": "admin@inventatrack.com",
+      "roles": [
+        "ROLE_ADMIN"
+      ]
+    },
+    {
+      "id": 2,
+      "username": "usuario",
+      "password": "123",
+      "firstName": "Juan",
+      "lastName": "Pérez",
+      "email": "juan@inventatrack.com",
+      "roles": [
+        "ROLE_USER"
+      ]
+    }
+  ],
+  "inventories": [
+    {
+      "month": "Noviembre - 2025",
+      "products": [
+        {
+          "id": 489,
+          "categoryId": 32,
+          "name": "Chocolate",
+          "quantity": 100,
+          "expirationDate": "2025-12-30"
+        },
+        {
+          "id": 5656,
+          "categoryId": 56,
+          "name": "Caramandungas",
+          "quantity": 90,
+          "expirationDate": "2026-01-06"
+        },
+        {
+          "id": 444,
+          "categoryId": 223,
+          "name": "Paleta",
+          "quantity": 34,
+          "expirationDate": "2026-01-01"
+        },
+        {
+          "id": 45,
+          "categoryId": 2,
+          "name": "Cebola",
+          "quantity": 23,
+          "expirationDate": "2025-12-24"
+        }
+      ],
+      "id": 8
+    },
+    {
+      "month": "Octubre - 2025",
+      "products": [
+        {
+          "id": 2323,
+          "categoryId": 12,
+          "name": "atun",
+          "quantity": 12,
+          "expirationDate": "2025-12-31"
+        },
+        {
+          "id": 23,
+          "categoryId": 34,
+          "name": "tomate",
+          "quantity": 12,
+          "expirationDate": "2025-12-31"
+        }
+      ],
+      "id": 9
+    },
+    {
+      "month": "Diciembre - 2025",
+      "products": [
+        {
+          "id": 12312,
+          "categoryId": 33,
+          "name": "Cebolla",
+          "quantity": 22,
+          "expirationDate": "2025-12-17"
+        },
+        {
+          "id": 12312,
+          "categoryId": 12,
+          "name": "cebolla",
+          "quantity": 134,
+          "expirationDate": "2025-12-24"
+        }
+      ],
+      "id": 10
+    }
+  ],
+  "notifications": []
+}

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+/**import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -31,4 +31,4 @@ export class ReportsService {
   getExpiredProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(`${this.baseUrl}/expired-products`);
   }
-}
+}**/

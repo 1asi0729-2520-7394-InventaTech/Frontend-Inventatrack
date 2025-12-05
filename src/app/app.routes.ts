@@ -1,18 +1,21 @@
 import { Routes } from '@angular/router';
 import { Home } from './shared/presentation/views/home/home';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './iam/presentation/views/login/login.component';
+import { RegisterComponent } from './iam/presentation/views/register/register.component';
+
+//agregado
+import { InventoryComponent } from './inventory/presentation/views/inventory/inventory.component';
 
 const about = () =>
     import('./shared/presentation/views/about/about').then(m => m.About);
 const pageNotFound = () =>
     import('./shared/presentation/views/page-not-found/page-not-found').then(m => m.PageNotFound);
 const inventory = () =>
-    import('./inventory/inventory.component').then(m => m.InventoryComponent);
+    import('./inventory/presentation/views/inventory/inventory.component').then(m => m.InventoryComponent);
 const profile = () =>
-    import('./profile/profile.component').then(m => m.ProfileComponent);
+    import('./iam/presentation/views/profile/profile.component').then(m => m.ProfileComponent);
 const reports = () =>
-    import('./reports/reports.component').then(m => m.ReportsComponent);
+    import('./reports/presentation/views/reports/reports.component').then(m => m.ReportsComponent);
 
 const baseTitle = 'InventaTrack';
 

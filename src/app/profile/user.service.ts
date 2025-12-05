@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+/**import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from './user.model';
 import { Observable, of } from 'rxjs';
@@ -22,4 +22,4 @@ export class UserService {
     if (!id) return of(null);
     return this.getUserById(Number(id));
   }
-}
+}**/
